@@ -1,1 +1,19 @@
 @import "tailwindcss";
+
+@theme {
+  --color-hudc-blue: #004AAD;
+  --color-hudc-light: #83A3CB;
+  --color-hudc-bg: #E3EAF1;
+  --color-hudc-dark: #4D4F4F;
+  --font-sans: "Inter", "sans-serif";
+
+}
+
+
+
+@layer base {
+  body {
+
+    @apply bg-hudc-bg text-hudc-dark font-sans antialiased transition-colors duration-300;
+  }
+}
