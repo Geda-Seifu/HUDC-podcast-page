@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   Users, 
@@ -11,10 +11,22 @@ import {
   ShieldCheck,
   Cpu
 } from 'lucide-react';
+import { useAuthStore } from '../../hooks/useAuthStore';
 
 export default function AdminLayout() {
+
+
+  
+
+  const { user } = useAuthStore(); // Get Harry's data from store
+  const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
+
+  const handleLogout = async () => {
+    await logoutAdmin();
+    navigate('/login');
+  };
 
   const menuItems = [
     { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
@@ -75,9 +87,13 @@ export default function AdminLayout() {
 
         {/* Sidebar Footer */}
         <div className="p-4 border-t border-hudc-light/10 bg-hudc-bg/20">
-          <Link to="/" className="flex items-center gap-3 text-hudc-dark/40 font-mono text-[10px] font-bold px-4 py-2 hover:text-hudc-blue transition-all">
+          <button 
+             
+            className="flex items-center gap-3 text-hudc-dark/40 font-mono text-[10px] font-bold px-4 py-2 hover:text-hudc-blue transition-all"
+            onClick={handleLogout}
+          >
             <LogOut className="w-3.5 h-3.5" /> EXIT_TO_PUBLIC
-          </Link>
+          </button>
         </div>
       </aside>
 
@@ -99,11 +115,11 @@ export default function AdminLayout() {
 
           <div className="flex items-center gap-4">
             <div className="text-right hidden sm:block">
-              <p className="text-[10px] font-bold text-hudc-dark uppercase">Harry_Admin</p>
+              <p className="text-[10px] font-bold text-hudc-dark uppercase">{user?.email.split('@')[0] || "Admin"}_root</p>
               <p className="text-[9px] font-mono text-green-500 uppercase">Status: Online</p>
             </div>
             <div className="w-8 h-8 rounded-full bg-hudc-blue/10 border border-hudc-blue/20 flex items-center justify-center text-hudc-blue font-bold text-xs">
-              H
+              {user?.email.charAt(0).toUpperCase() || "A"}
             </div>
           </div>
         </header>
