@@ -16,6 +16,7 @@ import LoginPage from "./features/public/LoginPage";
 import { useAuthStore } from "./hooks/useAuthStore";
 import { supabase } from "./lib/supabaseClient";
 import ProtectedRoute from "./components/auth/ProtectedRoutes";
+import NotFound from "./features/public/NotFoundPage";
 // import { Reveal } from './components/animation/Reveal.jsx'
 
 const queryClient = new QueryClient();
@@ -72,6 +73,7 @@ export const App = () => {
             />
           </Route>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
