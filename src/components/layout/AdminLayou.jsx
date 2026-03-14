@@ -11,7 +11,7 @@ import {
   ShieldCheck,
   Cpu
 } from 'lucide-react';
-import { useAuthStore } from '../../hooks/useAuthStore';
+import { useAuthStore,logoutAdmin } from '../../hooks/useAuthStore';
 
 export default function AdminLayout() {
 
