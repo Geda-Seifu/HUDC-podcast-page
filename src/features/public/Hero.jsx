@@ -2,10 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { Terminal } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { fetchAllGuests, fetchAllProjects } from '../../api/admin';
 
 // --- NEW: Reusable CountUp Component ---
 const CountUp = ({ end, duration = 2000 }) => {
   const [count, setCount] = useState(0);
+ 
 
   useEffect(() => {
     let startTimestamp = null;
@@ -26,6 +29,21 @@ const CountUp = ({ end, duration = 2000 }) => {
 export default function Hero() {
   const [text, setText] = useState("");
   const fullText = "/hudc/podcast";
+
+   // Fetches EVERYTHING regardless of status
+const { data: allGuests = [] } = useQuery({ 
+  queryKey: ['public_stats_guests'], 
+  queryFn: fetchAllGuests 
+});
+
+const { data: allProjects = [] } = useQuery({ 
+  queryKey: ['public_stats_projects'], 
+  queryFn: fetchAllProjects 
+});
+
+// These variables now represent every single 'click' or 'submission'
+const totalSubmissions = allGuests.length;
+const totalBuildsSent = allProjects.length;
   
   // Typing logic for the brand span
   useEffect(() => {
@@ -104,19 +122,16 @@ export default function Hero() {
               </div>
               <Terminal className="w-3 h-3 text-hudc-light/40" />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-hudc-light/20">
+            <div className="grid grid-cols-1 md:grid-cols-2  divide-y md:divide-y-0 md:divide-x divide-hudc-light/20">
               <div className="p-6">
-                <p className="font-mono text-[10px] text-hudc-blue uppercase mb-1">Suggestions</p>
-                <p className="text-3xl font-bold text-hudc-dark"><CountUp end={52} /></p>
+                <p className="font-mono text-[10px] text-hudc-blue uppercase mb-1">Incoming Suggestions</p>
+                <p className="text-3xl font-bold text-hudc-dark"><CountUp end={totalSubmissions} /></p>
               </div>
               <div className="p-6">
-                <p className="font-mono text-[10px] text-hudc-blue uppercase mb-1">Verified</p>
-                <p className="text-3xl font-bold text-hudc-dark"><CountUp end={24} /></p>
+                <p className="font-mono text-[10px] text-hudc-blue uppercase mb-1">Submitted Projects</p>
+                <p className="text-3xl font-bold text-hudc-dark"><CountUp end={totalBuildsSent} /></p>
               </div>
-              <div className="p-6">
-                <p className="font-mono text-[10px] text-hudc-blue uppercase mb-1">Status</p>
-                <p className="text-3xl font-bold text-hudc-dark"><CountUp end={100} /></p>
-              </div>
+              
             </div>
           </div>
         </div>
