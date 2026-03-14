@@ -1,7 +1,8 @@
 
 import { useState } from 'react';
 import { Menu, X, Terminal, Cpu, ChevronRight } from 'lucide-react';
-
+import { Link } from 'react-router';
+import LoginPage from '../../features/public/LoginPage';
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -48,10 +49,13 @@ export default function Navbar() {
               
               <div className="h-4 w-px bg-hudc-light/30 mx-1"></div>
               
-              <button className="bg-hudc-dark text-white px-3 py-1.5 rounded-sm font-mono text-[10px] font-bold hover:bg-hudc-blue transition-all flex items-center gap-2 border-b-2 border-black/20 active:border-b-0 active:translate-y-px">
+              <Link
+                to="/login"
+                className="bg-hudc-dark text-white px-3 py-1.5 rounded-sm font-mono text-[10px] font-bold hover:bg-hudc-blue transition-all flex items-center gap-2 border-b-2 border-black/20 active:border-b-0 active:translate-y-px"
+              >
                 <Terminal className="w-3 h-3" />
                 SUDO_LOGIN
-              </button>
+              </Link>
             </div>
 
             {/* Mobile Menu Button */}
@@ -81,9 +85,11 @@ export default function Navbar() {
                 <ChevronRight className="w-4 h-4 text-hudc-blue" />
               </a>
             ))}
-            <button className="w-full bg-hudc-blue text-white py-2.5 rounded-sm font-mono text-xs font-bold flex items-center justify-center gap-2 mt-2">
+            <Link
+            to="/login"
+            className="w-full bg-hudc-blue text-white py-2.5 rounded-sm font-mono text-xs font-bold flex items-center justify-center gap-2 mt-2">
               <Terminal className="w-4 h-4" /> SUDO_LOGIN
-            </button>
+            </Link>
           </div>
         )}
       </nav>
