@@ -11,7 +11,8 @@ import {
   ShieldCheck,
   Cpu
 } from 'lucide-react';
-import { useAuthStore,logoutAdmin } from '../../hooks/useAuthStore';
+import { useAuthStore } from '../../hooks/useAuthStore';
+import { logoutAdmin } from '../../api/auth';
 
 export default function AdminLayout() {
 
@@ -25,7 +26,7 @@ export default function AdminLayout() {
 
   const handleLogout = async () => {
     await logoutAdmin();
-    navigate('/login');
+    navigate('/');
   };
 
   const menuItems = [
