@@ -107,13 +107,14 @@ export default function GuestForm({ isOpen }) {
 
             <div className="space-y-2">
               <label className="font-mono text-[11px] font-bold text-hudc-blue uppercase tracking-widest">
-                Professional_Role
+                Professional_Role *
               </label>
               <input //this is needs name
                 type="text" 
                 name='role'
                 placeholder="e.g. AI Researcher / Lead Dev"
                 className="w-full px-4 py-2.5 rounded-sm bg-hudc-bg/30 border border-hudc-light/20 focus:border-hudc-blue outline-none transition-all font-sans text-sm"
+                required
               />
             </div>
           </div>

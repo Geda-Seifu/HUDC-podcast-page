@@ -101,7 +101,7 @@ async function handleSubmit(e) {
               <input 
                 type="text" 
                 name="project_name"
-                placeholder="e.g. HUDC ThemeWave"
+                placeholder="e.g. HUDC podcast page"
                 className="w-full px-4 py-2.5 rounded-sm bg-hudc-bg/30 border border-hudc-light/20 focus:border-hudc-blue focus:ring-0 outline-none transition-all font-sans text-sm"
                 required
               />
@@ -109,14 +109,14 @@ async function handleSubmit(e) {
 
             <div className="space-y-2">
               <label className="font-mono text-[11px] font-bold text-hudc-blue uppercase tracking-widest">
-                Author_Name *
+                Author_Name (Optional)
               </label>
               <input 
                 type="text" 
                 name="author"
                 placeholder="e.g. John Doe or @github_handle"
                 className="w-full px-4 py-2.5 rounded-sm bg-hudc-bg/30 border border-hudc-light/20 focus:border-hudc-blue focus:ring-0 outline-none transition-all font-sans text-sm"
-                required
+                
               />
             </div>
 
@@ -131,7 +131,7 @@ async function handleSubmit(e) {
                   name="source_url"
                   placeholder="https://github.com/..."
                   className="w-full pl-10 pr-4 py-2.5 rounded-sm bg-hudc-bg/30 border border-hudc-light/20 focus:border-hudc-blue focus:ring-0 outline-none transition-all font-sans text-sm"
-                  required
+                  reqiured 
                 />
               </div>
             </div>
