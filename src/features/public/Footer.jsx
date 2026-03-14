@@ -61,19 +61,7 @@ export default function Footer() {
             </div>
 
             {/* Internal Access */}
-            <div>
-              <h4 className="font-mono font-bold text-hudc-blue mb-5 uppercase text-[10px] tracking-[0.2em] flex items-center gap-1">
-                <ChevronRight className="w-3 h-3" /> sudo
-              </h4>
-              <ul className="space-y-3">
-                <li>
-                  <a href="/admin" className="text-[11px] font-mono text-hudc-blue font-bold flex items-center gap-2 hover:opacity-80 transition-opacity">
-                     <Terminal className="w-3 h-3" /> Admin_Dashboard
-                  </a>
-                </li>
-                <li><a href="#" className="text-[11px] font-mono text-hudc-dark/40 hover:text-hudc-blue transition-colors italic">Privacy_Policy.md</a></li>
-              </ul>
-            </div>
+            
           </div>
 
           {/* Bottom Bar: Metadata */}
@@ -85,7 +73,7 @@ export default function Footer() {
             <div className="flex items-center gap-2 px-3 py-1.5 bg-hudc-blue/5 border border-hudc-blue/10 rounded-[4px]">
               <p className="text-[9px] font-mono text-hudc-dark/60 flex items-center gap-1">
                 ENGINEERED WITH <Heart className="w-3 h-3 text-red-500 fill-red-500 animate-pulse" /> BY 
-                <span className="text-hudc-blue font-bold ml-1 uppercase">Harry & HUDC_Devs</span>
+                <span className="text-hudc-blue font-bold ml-1 uppercase">HUDC_Devs</span>
               </p>
             </div>
           </div>
