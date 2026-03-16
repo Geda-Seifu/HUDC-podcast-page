@@ -24,7 +24,7 @@ export default function Footer() {
             {/* Brand Column */}
             <div className="md:col-span-2">
               <div className="flex items-center gap-2.5 mb-4 group">
-                <div className="bg-hudc-blue p-1.5 rounded-[4px] shadow-sm">
+                <div className="bg-hudc-blue p-1.5 rounded-sm shadow-sm">
                   <Cpu className="text-white w-4 h-4" />
                 </div>
                 <div className="flex flex-col leading-none">
@@ -37,7 +37,7 @@ export default function Footer() {
               </p>
               <div className="flex gap-3">
                 {[Twitter, Github, Linkedin].map((Icon, idx) => (
-                  <a key={idx} href="#" className="p-2 border border-hudc-light/20 rounded-[4px] text-hudc-dark/40 hover:text-hudc-blue hover:border-hudc-blue/50 transition-all bg-white/50">
+                  <a key={idx} href="#" className="p-2 border border-hudc-light/20 rounded-4sm text-hudc-dark/40 hover:text-hudc-blue hover:border-hudc-blue/50 transition-all bg-white/50">
                     <Icon className="w-3.5 h-3.5" />
                   </a>
                 ))}
@@ -70,7 +70,7 @@ export default function Footer() {
               © {currentYear} HUDC_COMMUNITY // v1.0.4-STABLE
             </p>
             
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-hudc-blue/5 border border-hudc-blue/10 rounded-[4px]">
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-hudc-blue/5 border border-hudc-blue/10 rounded-4sm">
               <p className="text-[9px] font-mono text-hudc-dark/60 flex items-center gap-1">
                 ENGINEERED WITH <Heart className="w-3 h-3 text-red-500 fill-red-500 animate-pulse" /> BY 
                 <span className="text-hudc-blue font-bold ml-1 uppercase">HUDC_Devs</span>

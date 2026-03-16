@@ -1,23 +1,17 @@
 import React, { useEffect } from "react";
-import Navbar from "./components/layout/NavBar";
-import Hero from "./features/public/Hero";
-import GuestForm from "./features/public/GuestForm";
-import ProjectForm from "./features/public/ProjectForm";
-import ProjectGallery from "./features/public/ProjectGallerg";
-import Footer from "./features/public/Footer";
-import PublicLandingPage from "./features/public/PublicLandingPage";
+import PublicLandingPage from "./pages/PublicLandingPage";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import AdminLayout from "./components/layout/AdminLayou";
+import AdminLayout from "./features/admin/components/AdminLayout";
 import AdminDashboard from "./features/admin/AdminDashBoard";
-import GuestManager from "./features/admin/GuestManager";
-import ProjectManager from "./features/admin/ProjectManager";
+import GuestManager from "./features/guests/GuestManager";
+import ProjectManager from "./features/projects/ProjectManager";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import LoginPage from "./features/public/LoginPage";
+import LoginPage from "./pages/LoginPage";
 import { useAuthStore } from "./hooks/useAuthStore";
 import { supabase } from "./lib/supabaseClient";
 import ProtectedRoute from "./components/auth/ProtectedRoutes";
-import NotFound from "./features/public/NotFoundPage";
-// import { Reveal } from './components/animation/Reveal.jsx'
+import NotFound from "./pages/NotFoundPage";
+import ConfigPanel from "./features/admin/components/ConfigPanel";
 
 const queryClient = new QueryClient();
 
@@ -46,31 +40,18 @@ export const App = () => {
         <Routes>
           <Route path="/" element={<PublicLandingPage />} />
 
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route
-              index
-              element={
-                <ProtectedRoute>
-                  <AdminDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="guests"
-              element={
-                <ProtectedRoute>
-                  <GuestManager />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="projects"
-              element={
-                <ProtectedRoute>
-                  <ProjectManager />
-                </ProtectedRoute>
-              }
-            />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<AdminDashboard />} />
+            <Route path="guests" element={<GuestManager />} />
+            <Route path="projects" element={<ProjectManager />} />
+            <Route path="config" element={<ConfigPanel/>} />
           </Route>
           <Route path="/login" element={<LoginPage />} />
           <Route path="*" element={<NotFound />} />

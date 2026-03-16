@@ -1,15 +1,14 @@
+import { useState } from "react";
+import { Menu, X, Terminal, Cpu, ChevronRight } from "lucide-react";
+import { Link } from "react-router";
 
-import { useState } from 'react';
-import { Menu, X, Terminal, Cpu, ChevronRight } from 'lucide-react';
-import { Link } from 'react-router';
-import LoginPage from '../../features/public/LoginPage';
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
-    { name: 'Suggest_Guest', href: '#suggest' },
-    { name: 'Showcase_Project', href: '#showcase' },
-    { name: 'Build_Gallery', href: '#gallery' },
+    { name: "Suggest_Guest", href: "#suggest" },
+    { name: "Showcase_Project", href: "#showcase" },
+    { name: "Build_Gallery", href: "#gallery" },
   ];
 
   return (
@@ -18,7 +17,6 @@ export default function Navbar() {
       <nav className="max-w-5xl mx-auto bg-white/70 backdrop-blur-md border border-hudc-light/30 rounded-xl shadow-lg shadow-hudc-blue/5">
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-14 items-center">
-            
             {/* Logo Section */}
             <div className="flex items-center gap-2.5 group cursor-pointer">
               <div className="bg-hudc-blue p-1.5 rounded-sm shadow-sm group-hover:rotate-12 transition-transform">
@@ -46,9 +44,9 @@ export default function Navbar() {
                   <span className="absolute -bottom-1 left-0 w-0 h-px bg-hudc-blue transition-all group-hover:w-full"></span>
                 </a>
               ))}
-              
+
               <div className="h-4 w-px bg-hudc-light/30 mx-1"></div>
-              
+
               <Link
                 to="/login"
                 className="bg-hudc-dark text-white px-3 py-1.5 rounded-sm font-mono text-[10px] font-bold hover:bg-hudc-blue transition-all flex items-center gap-2 border-b-2 border-black/20 active:border-b-0 active:translate-y-px"
@@ -60,12 +58,15 @@ export default function Navbar() {
 
             {/* Mobile Menu Button */}
             <div className="md:hidden">
-              
-              <button 
+              <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="text-hudc-dark p-2 hover:bg-hudc-bg rounded-lg transition-colors"
               >
-                {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                {isOpen ? (
+                  <X className="w-5 h-5" />
+                ) : (
+                  <Menu className="w-5 h-5" />
+                )}
               </button>
             </div>
           </div>
@@ -86,8 +87,9 @@ export default function Navbar() {
               </a>
             ))}
             <Link
-            to="/login"
-            className="w-full bg-hudc-blue text-white py-2.5 rounded-sm font-mono text-xs font-bold flex items-center justify-center gap-2 mt-2">
+              to="/login"
+              className="w-full bg-hudc-blue text-white py-2.5 rounded-sm font-mono text-xs font-bold flex items-center justify-center gap-2 mt-2"
+            >
               <Terminal className="w-4 h-4" /> SUDO_LOGIN
             </Link>
           </div>
