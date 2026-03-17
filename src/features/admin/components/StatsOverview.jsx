@@ -26,22 +26,6 @@ export default function StatsOverview() {
       color: "text-amber-500",
       bg: "bg-amber-500/10",
       desc: "// needs_approval"
-    },
-    {
-      label: "Live_Showcase",
-      value: approvedProjects,
-      icon: CheckCircle2,
-      color: "text-green-500",
-      bg: "bg-green-500/10",
-      desc: "// public_viewing"
-    },
-    {
-      label: "System_Traffic",
-      value: "1.2k",
-      icon: BarChart3,
-      color: "text-purple-500",
-      bg: "bg-purple-500/10",
-      desc: "// monthly_visits"
     }
   ];
 
@@ -74,17 +58,6 @@ export default function StatsOverview() {
         ))}
       </div>
 
-      {/* RECENT ACTIVITY LOG (Placeholder) */}
-      <div className="bg-white border border-hudc-light/30 rounded-sm">
-        <div className="p-4 border-b border-hudc-light/10 bg-hudc-bg/30">
-          <p className="text-[10px] font-mono font-bold text-hudc-dark uppercase tracking-widest">Recent_Activity_Stream</p>
-        </div>
-        <div className="p-8 text-center">
-            <p className="text-xs font-mono text-hudc-dark/30 uppercase tracking-[0.2em]">
-                // End_of_Stream // All_Systems_Operational
-            </p>
-        </div>
-      </div>
     </div>
   );
 }

@@ -78,7 +78,7 @@ export default function ConfigPanel() {
                     <button 
                         disabled={mutating}
                         onClick={() => updateConfig.mutate({ id: config.id, updates: { is_enabled: !config.is_enabled }})}
-                        className={`p-2 rounded-sm transition-all border-b-2 active:border-b-0 active:translate-y-[2px] ${
+                        className={`p-2 rounded-sm transition-all border-b-2 active:border-b-0 active:translate-y-0.5 cursor-pointer hover:bg-hudc-dark/40 ${
                           config.is_enabled 
                             ? 'text-hudc-blue bg-hudc-blue/10 border-hudc-blue/20' 
                             : 'text-hudc-dark/20 bg-hudc-bg border-hudc-light/30'
@@ -100,7 +100,7 @@ export default function ConfigPanel() {
                         <button 
                           disabled={mutating}
                           onClick={() => updateConfig.mutate({ id: config.id, updates: { value: config.value === 'required' ? 'optional' : 'required' }})}
-                          className={`px-4 py-1.5 rounded-sm font-mono text-[9px] font-bold border-2 transition-all active:translate-y-[1px] active:shadow-none ${
+                          className={`px-4 py-1.5 rounded-sm font-mono text-[9px] font-bold border-2 transition-all active:translate-y-0.5 active:shadow-none cursor-pointer hover:bg-hudc-dark/40 ${
                             config.value === 'required' 
                               ? 'border-hudc-blue text-hudc-blue bg-white shadow-[0_2px_0_0_rgba(37,99,235,1)] active:shadow-none' 
                               : 'border-hudc-light/30 text-hudc-dark/30 bg-hudc-bg shadow-[0_2px_0_0_rgba(0,0,0,0.05)] active:shadow-none'
