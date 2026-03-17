@@ -36,7 +36,7 @@ export function useProjects(searchTerm = "") {
     projects: filteredProjects,
     totalCount: projects.length,
     isLoading,
-    approve: approveMutation.mutate,
+    approve: approveMutation,
     remove: deleteMutation.mutate,
     isProcessing: approveMutation.isPending || deleteMutation.isPending
   };
