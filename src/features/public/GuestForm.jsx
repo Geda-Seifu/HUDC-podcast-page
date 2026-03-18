@@ -44,7 +44,6 @@ export default function GuestForm({ isOpen }) {
     setIsSubmitting(true);
     const formData = new FormData(e.target);
     const guestData = Object.fromEntries(formData.entries());
-    console.log(guestData)
     // Special handling for checkbox
     guestData.is_anonymous = formData.get('is_anonymous') === 'on';
 
