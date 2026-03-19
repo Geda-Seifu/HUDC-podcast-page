@@ -44,7 +44,8 @@ export default function ScreenshotUpload({ selectedFiles, setSelectedFiles,isReq
             <button 
               type="button"
               onClick={() => removeFile(index)}
-              className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute top-1 right-1 p-1 bg-red-500/90 text-white rounded-full 
+             opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity z-10"
             >
               <X className="w-4 h-4" />
             </button>
