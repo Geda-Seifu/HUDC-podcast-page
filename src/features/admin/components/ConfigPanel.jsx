@@ -68,7 +68,7 @@ export default function ConfigPanel() {
                 const mutating = isUpdating(config.id);
             return <div key={config.id} className="p-4 flex items-center justify-between hover:bg-hudc-bg/20 transition-colors">
                   <div>
-                    {console.log(config)}
+
                     <p className="text-xs font-bold text-hudc-dark uppercase">{config.label}</p>
                     <p className="text-[9px] font-mono text-hudc-dark/30 tracking-tighter">{config.id}</p>
                   </div>
