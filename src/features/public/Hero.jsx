@@ -8,7 +8,7 @@ import { fetchAllGuests, fetchAllProjects } from '../../api/admin';
 // --- NEW: Reusable CountUp Component ---
 const CountUp = ({ end, duration = 2000 }) => {
   const [count, setCount] = useState(0);
- 
+
 
   useEffect(() => {
     let startTimestamp = null;

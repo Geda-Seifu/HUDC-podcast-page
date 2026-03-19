@@ -9,11 +9,3 @@
 
 }
 
-
-
-@layer base {
-  body {
-
-    @apply bg-hudc-bg text-hudc-dark font-sans antialiased transition-colors duration-300;
-  }
-}
