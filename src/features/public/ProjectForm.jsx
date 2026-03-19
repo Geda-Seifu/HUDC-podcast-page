@@ -219,7 +219,9 @@ export default function ProjectForm({ isOpen }) {
                     {field.icon && (
                       <field.icon className="w-3.5 h-3.5 opacity-60" />
                     )}
-                    {field.label}{" "}
+                    {/* this is the label for the field */}
+                    {field.label} 
+                    {/* this is the indicator that shows when a field is required */}
                     {isRequired && <span className="relative flex h-1.5 w-1.5 ml-1">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-600"></span>
