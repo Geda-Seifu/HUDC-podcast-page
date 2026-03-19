@@ -1,6 +1,24 @@
-# HUDC Podcast Page
+# <img src="docs/screenshots/Logo.jpg" alt="HUDC Logo" width="40" style="vertical-align:middle;" /> HUDC Podcast Page
 
 A community-driven web platform for **Haramaya University Developer Community (HUDC)** podcast. It lets the community suggest podcast guests, showcase their projects, and gives admins full control over submissions through a protected dashboard.
+
+---
+
+## Screenshots
+
+<table>
+  <tr>
+    <td><img src="docs/screenshots/Hero.png" alt="Hero" /></td>
+    <td><img src="docs/screenshots/guestForm.png" alt="Guest Form" /></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/projectForm.png" alt="Project Form" /></td>
+    <td><img src="docs/screenshots/projectGallery.png" alt="Project Gallery" /></td>
+  </tr>
+  <tr>
+    <td colspan="2"><img src="docs/screenshots/AdminDashboard.png" alt="Admin Dashboard" /></td>
+  </tr>
+</table>
 
 ---
 
