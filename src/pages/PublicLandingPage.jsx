@@ -50,7 +50,7 @@ const PublicLandingPage = () => {
             </Reveal>
           </section>
 
-          <section id="gallery" className="py-20 bg-transparent">
+          <section id="gallery" className="py-20 bg-transparent relative z-20">
             <Reveal>
               <ProjectGallery />
             </Reveal>
