@@ -81,12 +81,13 @@ export default function ProjectGallery() {
 
       {/* Structured Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {allProjects.map((project) => (
-          <div
-            key={project.id}
-            className="group bg-white border border-hudc-light/30 rounded-sm hover:border-hudc-blue/50 transition-all flex flex-col shadow-sm hover:shadow-md"
-            git
-          >
+        {allProjects.length > 0 ? (
+          allProjects.map((project) => (
+            <div
+              key={project.id}
+              className="group bg-white border border-hudc-light/30 rounded-sm hover:border-hudc-blue/50 transition-all flex flex-col shadow-sm hover:shadow-md"
+              git
+            >
             <div className="p-6 flex flex-col grow">
               {/* Header: Project Name & Repo Links */}
               <div className="flex justify-between items-start mb-4">
@@ -154,7 +155,11 @@ export default function ProjectGallery() {
               </div>
             </div>
           </div>
-        ))}
+        ))):(
+          <div className="text-center col-span-full py-20 text-hudc-dark/50 font-mono italic">
+            No projects found. Be the first to submit your work!
+          </div>
+        )}
       </div>
                 {selectedProject && <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />}
 
