@@ -4,37 +4,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { Github, ExternalLink, Code2, User2, Terminal, ChevronDown } from 'lucide-react';
 import { supabase } from '../../lib/supabaseClient';
 
-const MOCK_PROJECTS = [
-  {
-    id: 1,
-    name: "DevTask_Manager",
-    description: "A productivity tool for developers using the Pomodoro technique and task tracking.",
-    tech_stack: ["React", "Tailwind", "Firebase"],
-    github_link: "#",
-    creator_name: "Harry",
-    status: "approved"
-  },
-  {
-    id: 2,
-    name: "HUDC-podcast-page",
-    description: "Extract color palettes from images and generate Telegram themes automatically.",
-    tech_stack: ["React.js", "Tailwindcss", "supabase"],
-    github_link: "#",
-    creator_name: "DevStudio",
-    status: "approved"
-  },
-  {
-    id: 3,
-    name: "CryptoPulse_Tracker",
-    description: "Real-time cryptocurrency price tracker with interactive charts and alerts.",
-    tech_stack: ["Next.js", "Chart.js", "CoinGecko_API"],
-    github_link: "#",
-    creator_name: "AlexCode",
-    status: "approved"
-  }
 
-
-];
 
 const PROJECTS_PER_PAGE = 6;
 

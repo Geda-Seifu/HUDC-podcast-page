@@ -1,20 +1,22 @@
-
 import React from "react";
 import { Box, CheckCircle, XCircle, Loader2 } from "lucide-react";
+import { useAdminStore } from "../../../store/useAdminStore";
 
 const ProjectTableBody = ({
   filteredProjects,
-  setSelectedProject,
   approveMutation,
 }) => {
+  const  setSelectedProject  = useAdminStore(
+    (state) => state.setSelectedProject,
+  );
   return (
     <tbody className="divide-y divide-hudc-light/10">
       {filteredProjects.length > 0 ? (
         filteredProjects.map((project) => {
           // Identify if THIS specific row is syncing
           // Checking variables.id ensures only one button spins at a time
-          const isSyncing = 
-            (approveMutation.isPending || approveMutation.isLoading) && 
+          const isSyncing =
+            (approveMutation.isPending || approveMutation.isLoading) &&
             approveMutation.variables?.id === project.id;
 
           return (
@@ -27,7 +29,9 @@ const ProjectTableBody = ({
               <td className="px-4 md:px-6 py-4">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-hudc-bg border border-hudc-light/20 rounded-sm shrink-0">
-                    <Box className={`w-4 h-4 ${isSyncing ? "animate-pulse text-hudc-blue" : "text-hudc-blue"}`} />
+                    <Box
+                      className={`w-4 h-4 ${isSyncing ? "animate-pulse text-hudc-blue" : "text-hudc-blue"}`}
+                    />
                   </div>
                   <div className="min-w-0">
                     <p className="text-sm font-bold text-hudc-dark uppercase tracking-tight truncate">
@@ -36,12 +40,16 @@ const ProjectTableBody = ({
                     <p className="text-[10px] font-mono text-hudc-dark/40 truncate">
                       Dev: {project.student_name || "Anonymous"}
                     </p>
-                    
+
                     {/* MOBILE-ONLY: Inline Status Badge */}
                     <div className="md:hidden mt-1">
-                      <span className={`text-[8px] font-mono font-bold uppercase ${
-                        project.is_approved ? "text-green-500" : "text-amber-500"
-                      }`}>
+                      <span
+                        className={`text-[8px] font-mono font-bold uppercase ${
+                          project.is_approved
+                            ? "text-green-500"
+                            : "text-amber-500"
+                        }`}
+                      >
                         ● {project.is_approved ? "reviewed" : "pending"}
                       </span>
                     </div>
@@ -53,7 +61,10 @@ const ProjectTableBody = ({
               <td className="hidden md:table-cell px-6 py-4">
                 <div className="flex gap-1 flex-wrap">
                   {project.tech_stack?.slice(0, 2).map((s) => (
-                    <span key={s} className="text-[9px] font-mono bg-hudc-blue/5 text-hudc-blue px-1.5 py-0.5 rounded-xs border border-hudc-blue/10">
+                    <span
+                      key={s}
+                      className="text-[9px] font-mono bg-hudc-blue/5 text-hudc-blue px-1.5 py-0.5 rounded-xs border border-hudc-blue/10"
+                    >
                       {s}
                     </span>
                   ))}
@@ -67,11 +78,13 @@ const ProjectTableBody = ({
 
               {/* Status - Hidden on Mobile */}
               <td className="hidden md:table-cell px-6 py-4">
-                <span className={`px-2 py-0.5 rounded-xs border text-[9px] font-mono font-bold uppercase ${
-                  project.is_approved
-                    ? "text-green-500 bg-green-500/10 border-green-500/20"
-                    : "text-amber-500 bg-amber-500/10 border-amber-500/20"
-                }`}>
+                <span
+                  className={`px-2 py-0.5 rounded-xs border text-[9px] font-mono font-bold uppercase ${
+                    project.is_approved
+                      ? "text-green-500 bg-green-500/10 border-green-500/20"
+                      : "text-amber-500 bg-amber-500/10 border-amber-500/20"
+                  }`}
+                >
                   {project.is_approved ? "reviewed" : "pending"}
                 </span>
               </td>
@@ -89,18 +102,20 @@ const ProjectTableBody = ({
                   }}
                   className={`transition-all font-mono text-[10px] font-bold uppercase border px-3 py-1.5 rounded-sm active:scale-95 flex items-center gap-2 ml-auto
                     ${isSyncing ? "cursor-wait opacity-70" : "cursor-pointer"} ${
-                    project.is_approved 
-                      ? "text-red-500 border-red-100 hover:bg-red-50" 
-                      : "text-hudc-blue border-hudc-blue/20 hover:bg-hudc-blue/5"
-                  }`}
+                      project.is_approved
+                        ? "text-red-500 border-red-100 hover:bg-red-50"
+                        : "text-hudc-blue border-hudc-blue/20 hover:bg-hudc-blue/5"
+                    }`}
                 >
                   {isSyncing ? (
                     <>
                       <Loader2 className="w-3 h-3 animate-spin" />
                       Syncing...
                     </>
+                  ) : project.is_approved ? (
+                    "revoke"
                   ) : (
-                    project.is_approved ? "revoke" : "approve"
+                    "approve"
                   )}
                 </button>
               </td>

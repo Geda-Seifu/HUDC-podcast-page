@@ -4,42 +4,27 @@ import Loading from "../../components/animation/Loading";
 import ProjectManagerHead from "./components/ProjectManagerHead";
 import Table from "./components/ProjectTable";
 import ProjectModal from "./components/ProjectModal";
+import { useAdminStore } from "../../store/useAdminStore";
+import ProjectTableBody from "./components/ProjectTableBody";
 
 export default function ProjectManager() {
-  const [selectedProject, setSelectedProject] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  
-  const { projects, totalCount, isLoading, approve, remove } = useProjects(searchTerm);
+  const { projects, totalCount, isLoading, approve } = useProjects();
+  const selectedProject = useAdminStore((state) => state.selectedProject);
 
   if (isLoading) return <Loading text="Fetching_Archive..." />;
 
   return (
     <div className="relative">
-      <ProjectManagerHead 
-        length={totalCount} 
-        searchTerm={searchTerm} 
-        setSearchTerm={setSearchTerm} 
-      />
+      <ProjectManagerHead length={totalCount} />
 
-      <Table 
-        filteredProjects={projects} 
-        approveMutation={approve} 
-        setSelectedProject={setSelectedProject} 
-      />
-
-      {selectedProject && (
-        <ProjectModal 
-          selectedProject={selectedProject}
-          onClose={() => setSelectedProject(null)}
+      <Table>
+        <ProjectTableBody
+          filteredProjects={projects}
           approveMutation={approve}
-          onDelete={() => {
-            if (window.confirm("Delete repository?")) {
-              remove(selectedProject.id);
-              setSelectedProject(null);
-            }
-          }}
         />
-      )}
+      </Table>
+
+      {selectedProject && <ProjectModal approveMutation={approve} />}
     </div>
   );
 }

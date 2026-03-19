@@ -1,9 +1,10 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetchAllProjects, updateProjectApproval, deleteEntry } from "../../../api/admin";
+import { useAdminStore } from "../../../store/useAdminStore";
 
-export function useProjects(searchTerm = "") {
+export function useProjects() {
   const queryClient = useQueryClient();
-
+  const  searchTerm  = useAdminStore((state)=>(state.searchTerm));
   // 1. Fetch
   const { data: projects = [], isLoading } = useQuery({
     queryKey: ["admin_projects"],
@@ -24,7 +25,7 @@ export function useProjects(searchTerm = "") {
 
   // 4. Client-side Filter
   const filteredProjects = projects.filter((project) => {
-    const searchLower = searchTerm.toLowerCase();
+    const searchLower = searchTerm?.toLowerCase();
     const matchesTitle = project.title?.toLowerCase().includes(searchLower);
     const matchesStack = project.tech_stack?.some((tech) =>
       tech.toLowerCase().includes(searchLower)

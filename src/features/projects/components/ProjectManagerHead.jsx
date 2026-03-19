@@ -1,6 +1,8 @@
 import React from 'react'
 import { Search, X } from "lucide-react";
-const ProjectManagerHead = ({length,setSearchTerm,searchTerm}) => {
+import { useAdminStore } from '../../../store/useAdminStore';
+const ProjectManagerHead = ({length}) => {
+  const {setSearchTerm,searchTerm} = useAdminStore((state)=>(state.setSearchTerm, state.searchTerm));
   return (
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
