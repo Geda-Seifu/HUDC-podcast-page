@@ -4,6 +4,7 @@ import { supabase } from '../../../lib/supabaseClient';
 
 export function useSystemConfig() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedFiles,setSelectedFiles] = useState([])
 
   const { data: configs, isLoading } = useQuery({
     queryKey: ['system_config'],
@@ -25,6 +26,8 @@ export function useSystemConfig() {
     isLoading,
     isSubmitting,
     setIsSubmitting, // We return this so you can control it in your handleSubmit
-    getDBConfig
+    getDBConfig,
+    selectedFiles,
+    setSelectedFiles
   };
 }

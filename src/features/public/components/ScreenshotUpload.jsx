@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Image, X, Plus } from 'lucide-react';
 
-export default function ScreenshotUpload({ selectedFiles, setSelectedFiles }) {
+export default function ScreenshotUpload({ selectedFiles, setSelectedFiles,isRequired }) {
   
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -23,6 +23,12 @@ export default function ScreenshotUpload({ selectedFiles, setSelectedFiles }) {
       <label className="font-mono text-[10px] font-bold text-hudc-blue uppercase tracking-widest flex items-center gap-2">
         <Image className="w-3.5 h-3.5 opacity-60" />
         Project_Screenshots (Max 3)
+        {isRequired && (
+            <span className="relative flex h-1.5 w-1.5 ml-1">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-600"></span>
+            </span>
+          )}
       </label>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -56,6 +62,7 @@ export default function ScreenshotUpload({ selectedFiles, setSelectedFiles }) {
               accept="image/*" 
               className="hidden" 
               onChange={handleFileChange} 
+              required={isRequired && selectedFiles.length === 0} // Make required if no files selected
             />
           </label>
         )}

@@ -23,6 +23,8 @@ import ModeIndicator from "./components/ModeIndicator.jsx";
 import { useSystemConfig } from "./hooks/useSystemConfig.js";
 import LockedState from "./components/LockState.jsx";
 import ScreenshotUpload from "./components/ScreenshotUpload.jsx";
+import Toast from "../../components/animation/toast.jsx";
+import { useToast } from "../../components/animation/hooks/useToast.js";
 
 // 1. THE BLUEPRINT: Project Field Metadata
 const PROJECT_FIELDS = [
@@ -127,6 +129,8 @@ export default function ProjectForm({ isOpen }) {
     setSelectedFiles,
   } = useSystemConfig();
 
+  const {toast,showToast,hideToast} = useToast()
+
   async function handleSubmit(e) {
     e.preventDefault();
     setIsSubmitting(true);
@@ -152,9 +156,9 @@ export default function ProjectForm({ isOpen }) {
       await submitProject(projectData);
       setSelectedFiles([]); // Clear selected files after successful upload
       e.target.reset();
-      alert("PROJECT_UPLOADED: Awaiting_Verification");
+      showToast("SUCCESS: Manifest_Pushed","success")
     } catch (error) {
-      alert(error.message);
+      showToast("Error","error")
     } finally {
       setIsSubmitting(false);
     }
@@ -197,6 +201,7 @@ export default function ProjectForm({ isOpen }) {
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
             {PROJECT_FIELDS.map((field) => {
+              
               const dbRule = getDBConfig(field.id);
               if (!dbRule.is_enabled) return null;
 
@@ -215,7 +220,10 @@ export default function ProjectForm({ isOpen }) {
                       <field.icon className="w-3.5 h-3.5 opacity-60" />
                     )}
                     {field.label}{" "}
-                    {isRequired && <span className="text-red-500">*</span>}
+                    {isRequired && <span className="relative flex h-1.5 w-1.5 ml-1">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-600"></span>
+            </span>}
                   </label>
 
                   <InputTag
@@ -230,10 +238,13 @@ export default function ProjectForm({ isOpen }) {
               );
             })}
             {/* //the holder for the screenshot upload component, which is a bit more complex than the standard input fields */}
-            <ScreenshotUpload
-              selectedFiles={selectedFiles}
-              setSelectedFiles={setSelectedFiles}
-            />
+           {getDBConfig('field_project_screenshots').is_enabled && (
+              <ScreenshotUpload
+                isRequired={getDBConfig('field_project_screenshots').value === "required"}
+                selectedFiles={selectedFiles}
+                setSelectedFiles={setSelectedFiles}
+              />
+            )}
           </div>
 
           <div className="md:col-span-2 pt-4">
@@ -251,6 +262,14 @@ export default function ProjectForm({ isOpen }) {
             </p>
           </div>
         </form>
+
+        {toast && (
+          <Toast
+            message={toast.message}
+            type={toast.type}
+            onClose={hideToast}
+          />
+        )}
       </div>
     </div>
   );
