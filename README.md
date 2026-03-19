@@ -192,9 +192,48 @@ CREATE POLICY "Public_Read_Config" ON public.system_config FOR SELECT USING (tru
 CREATE POLICY "Admin_Manage_Config" ON public.system_config FOR UPDATE TO authenticated USING (true);
 ```
 
+### Seed `system_config`
+
+The forms and config panel are entirely driven by rows in `system_config`. Without this data the forms will render nothing. Run this insert after creating the table:
+
+```sql
+INSERT INTO public.system_config (id, label, is_enabled, value, category) VALUES
+-- Form-level toggles (controls whether the entire form is shown)
+('guest_form',                  'Guest Suggestion Form',   true, 'optional', 'status'),
+('project_form',                'Project Showcase Form',   true, 'optional', 'status'),
+
+-- Guest form fields
+('field_guest_name',            'Guest Full Name',         true, 'required', 'guest_form'),
+('field_guest_role',            'Professional Role',       true, 'required', 'guest_form'),
+('field_guest_rationale',       'Rationale / Why Guest',   true, 'required', 'guest_form'),
+('field_guest_telegram',        'Telegram Handle',         true, 'optional', 'guest_form'),
+('field_guest_phone',           'Phone Number',            true, 'optional', 'guest_form'),
+('field_guest_linkedin',        'LinkedIn Profile',        true, 'optional', 'guest_form'),
+('field_guest_twitter',         'Twitter / X Handle',      true, 'optional', 'guest_form'),
+('field_guest_discord',         'Discord Handle',          true, 'optional', 'guest_form'),
+('field_guest_portfolio',       'Portfolio Website',       true, 'optional', 'guest_form'),
+('field_guest_availability',    'Meeting Availability',    true, 'optional', 'guest_form'),
+('field_guest_topics',          'Suggested Topics',        true, 'optional', 'guest_form'),
+
+-- Project form fields
+('field_project_title',         'Project Title',           true, 'required', 'projects_form'),
+('field_project_author',        'Author Name',             true, 'required', 'projects_form'),
+('field_project_description',   'Description',             true, 'required', 'projects_form'),
+('field_project_github',        'Source Code URL',         true, 'optional', 'projects_form'),
+('field_project_demo',          'Live Demo URL',           true, 'optional', 'projects_form'),
+('field_project_tech_stack',    'Tech Stack',              true, 'optional', 'projects_form'),
+('field_project_type',          'Project Category',        true, 'optional', 'projects_form'),
+('field_project_screenshots',   'Screenshots',             true, 'optional', 'projects_form'),
+('field_project_video',         'Walkthrough Video',       true, 'optional', 'projects_form'),
+('field_project_twitter',       'X / Twitter Link',        true, 'optional', 'projects_form'),
+('field_project_discord',       'Discord Handle',          true, 'optional', 'projects_form');
+```
+
+You can adjust `is_enabled` and `value` (`required` / `optional`) per field at any time from the admin Config Panel.
+
 ### Storage Bucket
 
-Create a public storage bucket named `project_screenshots` in your Supabase project under **Storage**.
+In your Supabase project go to **Storage** and create a new bucket named `project_screenshots`. Set it to **public** so uploaded screenshot URLs are accessible in the gallery. Without a public bucket, project screenshots will fail to load.
 
 ---
 
@@ -217,17 +256,52 @@ supabase secrets set TELEGRAM_CHAT_ID=your_chat_id
 
 Or go to your Supabase project → **Edge Functions** → `notify-telegram` → **Secrets** and add them there.
 
-### Wire Up the Webhook
+### Wire Up the Triggers
 
-In your Supabase project go to **Database → Webhooks** and create two webhooks:
+Instead of webhooks, this project uses PostgreSQL triggers with `pg_net` to call the edge function directly from the database. Run this in your Supabase **SQL Editor**:
 
-| Event | Table | Function URL |
-|---|---|---|
-| INSERT | `projects` | `https://<project-ref>.supabase.co/functions/v1/notify-telegram` |
-| INSERT | `guests` | `https://<project-ref>.supabase.co/functions/v1/notify-telegram` |
+```sql
+-- 1. Enable the pg_net extension (required to make HTTP calls from SQL)
+CREATE EXTENSION IF NOT EXISTS "pg_net";
+
+-- 2. Create the trigger function
+CREATE OR REPLACE FUNCTION public.handle_telegram_notification()
+RETURNS TRIGGER AS $$
+BEGIN
+  PERFORM net.http_post(
+    url := 'https://<YOUR_PROJECT_REF>.supabase.co/functions/v1/notify-telegram',
+    headers := jsonb_build_object(
+      'Content-Type', 'application/json',
+      'Authorization', 'Bearer ' || '<YOUR_ANON_KEY>'
+    ),
+    body := jsonb_build_object(
+      'record', row_to_json(NEW),
+      'table', TG_TABLE_NAME,
+      'type', TG_OP
+    )
+  );
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- 3. Attach triggers to both tables
+CREATE TRIGGER on_guest_submitted
+  AFTER INSERT ON public.guests
+  FOR EACH ROW EXECUTE FUNCTION public.handle_telegram_notification();
+
+CREATE TRIGGER on_project_submitted
+  AFTER INSERT ON public.projects
+  FOR EACH ROW EXECUTE FUNCTION public.handle_telegram_notification();
+```
+
+Replace `<YOUR_PROJECT_REF>` with your Supabase project reference and `<YOUR_ANON_KEY>` with your project's anon key.
 
 ---
 
 ## Admin Access
 
-Navigate to `/login` and sign in with your Supabase Auth credentials. The `/admin` route is protected — unauthenticated users are redirected automatically.
+The `/admin` route is protected — unauthenticated users are redirected to `/login` automatically.
+
+To set up your admin account, go to your Supabase project → **Authentication → Users → Add user → Create new user** and enter an email and password. This creates a confirmed user in Supabase Auth which generates a JWT on login, granting the `authenticated` role that the RLS policies use to allow full admin access to the database.
+
+Once created, use those credentials to sign in at `/login`.
