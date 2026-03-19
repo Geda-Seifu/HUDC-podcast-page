@@ -42,3 +42,15 @@ export const uploadScreenshots = async (files) => {
 
   return Promise.all(uploadPromises);
 };
+
+
+//this will fetch the numbers for the status
+export const fetchCommunityStats = async () => {
+  const { data, error } = await supabase
+    .from('community_stats')
+    .select('*')
+    .single();
+  
+  if (error) throw error;
+  return data; // Returns { total_guests: 12, total_projects: 5 }
+};

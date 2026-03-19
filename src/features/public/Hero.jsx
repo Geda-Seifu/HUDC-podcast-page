@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Terminal } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchAllGuests, fetchAllProjects } from '../../api/admin';
+import { fetchCommunityStats } from '../../api';
 
 // --- NEW: Reusable CountUp Component ---
 const CountUp = ({ end, duration = 2000 }) => {
@@ -31,19 +32,15 @@ export default function Hero() {
   const fullText = "/hudc/podcast";
 
    // Fetches EVERYTHING regardless of status
-const { data: allGuests = [] } = useQuery({ 
-  queryKey: ['public_stats_guests'], 
-  queryFn: fetchAllGuests 
-});
+   const {data : stats = {total_guests : 0 , total_projects : 0}} = useQuery({
+    queryKey : ["public_stats"],
+    queryFn : fetchCommunityStats
+   })
 
-const { data: allProjects = [] } = useQuery({ 
-  queryKey: ['public_stats_projects'], 
-  queryFn: fetchAllProjects 
-});
 
 // These variables now represent every single 'click' or 'submission'
-const totalSubmissions = allGuests.length;
-const totalBuildsSent = allProjects.length;
+const totalSubmissions = stats.total_guests
+const totalBuildsSent = stats.total_projects
   
   // Typing logic for the brand span
   useEffect(() => {
