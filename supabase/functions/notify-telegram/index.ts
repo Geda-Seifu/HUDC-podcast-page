@@ -34,20 +34,46 @@ serve(async (req) => {
                 `*Reason:* ${record.rationale || 'N/A'}`
     }
 
-    if (message) {
-      console.log("Thisis the message being fetchd")
-      await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: CHAT_ID,
-          text: message,
-          parse_mode: 'Markdown',
-        }),
-      })
+    
+// ... (imports and secrets stay the same)
 
-      console.log("If this message appears then it's fetched successfully")
+    if (message) {
+      const screenshots = record.screenshots || [];
+
+      // OPTION A: If there are screenshots, send as an album (Media Group)
+      if (screenshots.length > 0) {
+        const media = screenshots.map((url, index) => ({
+          type: 'photo',
+          media: url,
+          // We attach the full text description only to the first image
+          caption: index === 0 ? message : '', 
+          parse_mode: 'Markdown'
+        }));
+
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: CHAT_ID,
+            media: media,
+          }),
+        });
+
+      } 
+      // OPTION B: No screenshots? Just send the text as usual
+      else {
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: message,
+            parse_mode: 'Markdown',
+          }),
+        });
+      }
     }
+// ...
 
     return new Response(JSON.stringify({ status: 'success' }), { 
       headers: { "Content-Type": "application/json" } 
