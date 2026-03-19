@@ -9,6 +9,8 @@ import { supabase } from '../../lib/supabaseClient';
 import { submitGuest } from "../../api/index";
 import LockedState from './components/LockState';
 import FormHeader from './components/FormHeader';
+import { useToast } from '../../components/animation/hooks/useToast';
+import Toast from '../../components/animation/toast';
 
 // 1. THE BLUEPRINT: Centralized UI Metadata
 const GUEST_FIELDS = [
@@ -27,6 +29,7 @@ const GUEST_FIELDS = [
 
 export default function GuestForm({ isOpen }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const {toast,showToast,hideToast} = useToast()
 
   // Sync with your system_config table
   const { data: configs, isLoading } = useQuery({
@@ -45,14 +48,17 @@ export default function GuestForm({ isOpen }) {
     const formData = new FormData(e.target);
     const guestData = Object.fromEntries(formData.entries());
     // Special handling for checkbox
-    guestData.is_anonymous = formData.get('is_anonymous') === 'on';
+    // guestData.is_anonymous = formData.get('is_anonymous') === 'on';
 
     try {
       await submitGuest(guestData);
       e.target.reset();
-      alert("SUCCESS: Manifest_Pushed");
+      // alert("SUCCESS: Manifest_Pushed"); 
+      // can be changed into a modal or toast notification for better UX
+      showToast("SUCCESS: Manifest_Pushed","success")
     } catch (error) {
-      alert(error.message);
+
+      showToast("Error","error")
     } finally {
       setIsSubmitting(false);
     }
@@ -70,10 +76,10 @@ export default function GuestForm({ isOpen }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
           {GUEST_FIELDS.map((field) => {
             const dbRule = getDBConfig(field.id);
-            if (!dbRule.is_enabled) return null;
+            if (!dbRule.is_enabled) return null; // If the field is disabled in the database, don't render it at all
 
-            const isRequired = dbRule.value === 'required';
-            const isFullWidth = field.component === 'textarea';
+            const isRequired = dbRule.value === 'required'; //booleans
+            const isFullWidth = field.component === 'textarea'; 
             const InputTag = field.component === 'textarea' ? 'textarea' : 'input';
 
             return (
@@ -96,15 +102,7 @@ export default function GuestForm({ isOpen }) {
           })}
         </div>
 
-        {/* Anonymous Submission Toggle */}
-        {getDBConfig('field_guest_anonymous').is_enabled && (
-          <div className="flex items-center gap-3 p-4 bg-hudc-bg/20 border border-hudc-light/10 rounded-sm">
-            <input type="checkbox" name="is_anonymous" id="anon" className="w-4 h-4 accent-hudc-blue cursor-pointer" />
-            <label htmlFor="anon" className="font-mono text-[10px] text-hudc-dark/60 cursor-pointer uppercase font-bold">
-              Enable_Anonymous_Submission
-            </label>
-          </div>
-        )}
+
 
         <button 
           disabled={isSubmitting}
@@ -113,6 +111,13 @@ export default function GuestForm({ isOpen }) {
           {isSubmitting ? 'Pushing_to_System...' : '> Execute_Submit'}
         </button>
       </form>
+
+      {
+        toast && <Toast
+        message={toast.message}
+        type={toast.type}
+        onClose={hideToast}/>
+      }
     </div>
   );
 }
